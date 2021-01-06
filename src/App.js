@@ -2,7 +2,6 @@ import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import React, { Component, useState, useRef } from 'react';
-import JoditEditor from "jodit-react";
 
 import { WordListsContainer } from './WordLists.js';
 class App extends Component {
@@ -13,12 +12,14 @@ class App extends Component {
       wordLists: [
         { label: '1x', words: 'hi,hello,howdy' },
         { label: '2x', words: 'big,brag,band' }
-      ]
+      ],
+      text:'Hi there!, howdy?'
     };
 
     this.loadWordLists();
     console.log(this.state);
     this.wordListItemChanged = this.wordListItemChanged.bind(this);
+    this.textChanged = this.textChanged.bind(this);
   }
 
   wordListItemChanged(index, label, words) {
@@ -28,6 +29,9 @@ class App extends Component {
     this.saveWordLists(wordLists);
   }
 
+  textChanged(e){
+    this.setState({text:e.target.value});
+  }
 
   render() {
 
@@ -39,6 +43,10 @@ class App extends Component {
         <div className="container pt-3">
           <div className="row">
             <div className="col-sm-8">
+              <div className="text-left pb-2">
+                <button className="btn btn-primary">Count</button>
+              </div>
+              <textarea className="w-100" rows="10" onChange={this.textChanged}>{this.state.text}</textarea>
             </div>
             <div className="col-sm-4">
               <WordListsContainer itemChanged={this.wordListItemChanged} wordLists={this.state.wordLists}></WordListsContainer>
