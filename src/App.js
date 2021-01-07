@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import React, { Component, useState, useRef } from 'react';
 
 import { WordListsContainer } from './WordLists.js';
+import WordCounter from './WordCounter';
 class App extends Component {
 
   constructor(props) {
@@ -11,9 +12,10 @@ class App extends Component {
     this.state = {
       wordLists: [
         { label: '1x', words: 'hi,hello,howdy' },
-        { label: '2x', words: 'big,brag,band' }
+        { label: '2x', words: 'big,brag,band' },
+        {label:'wh questions', words:'what,when,where'}
       ],
-      text:'Hi there!, howdy?'
+      text: 'Hi there!, howdy? What if I brag about something'
     };
 
     this.loadWordLists();
@@ -29,8 +31,8 @@ class App extends Component {
     this.saveWordLists(wordLists);
   }
 
-  textChanged(e){
-    this.setState({text:e.target.value});
+  textChanged(e) {
+    this.setState({ text: e.target.value });
   }
 
   render() {
@@ -43,10 +45,7 @@ class App extends Component {
         <div className="container pt-3">
           <div className="row">
             <div className="col-sm-8">
-              <div className="text-left pb-2">
-                <button className="btn btn-primary">Count</button>
-              </div>
-              <textarea className="w-100" rows="10" onChange={this.textChanged}>{this.state.text}</textarea>
+             <WordCounter textChanged={this.textChanged} text={this.state.text} wordLists={this.state.wordLists}></WordCounter>
             </div>
             <div className="col-sm-4">
               <WordListsContainer itemChanged={this.wordListItemChanged} wordLists={this.state.wordLists}></WordListsContainer>
