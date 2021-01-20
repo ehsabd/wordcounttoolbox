@@ -13,7 +13,7 @@ class App extends Component {
       wordLists: [
         { label: '1x', words: 'hi,hello,howdy' },
         { label: '2x', words: 'big,brag,band' },
-        {label:'wh questions', words:'what,when,where'}
+        { label:'wh questions', words:'what,when,where'}
       ],
       text: 'Hi there!, howdy? What if I brag about something'
     };

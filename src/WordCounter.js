@@ -3,34 +3,44 @@ import { WordCountResultTable } from './WordCountResultTable';
 import WordCountResultText from './WordCountResultText';
 class WordCounter extends Component {
 
+    labels=[];
+
     constructor(props) {
         super(props);
-        this.countWords = this.countWords.bind(this);
+        this.processWords = this.processWords.bind(this);
         this.state = {
             editorHeight: '300px',
             isEditor: true
         };
+        this.labels = this.props.wordLists.map(({label, words})=>label);
     }
 
-    countWords() {
+    processWords() {
         let wordsIndex = {};
-        let countDataObject = { undefined: 0 };
+        let wordListsCountData = { undefined: 0 };
+        let colorId = 0;
         this.props.wordLists.forEach(({ label, words }) => {
-            countDataObject[label] = 0;
+            wordListsCountData[label] = 0;
             words.split(',').forEach(word => {
                 wordsIndex[word.trim()] = label;
-            })
+            });
         });
-        let textWords = [...this.props.text.matchAll(/\w+/g)].map(m => m[0].toLowerCase());
+        const textWords = [...this.props.text.matchAll(/\w+/g)].map(
+            m => {
+                const word = m[0].toLowerCase();
+                const index = m.index;
+                const length = m[0].length;
+                const label = wordsIndex[word];
+                return {word, index, length, label}
+            });
 
-        textWords.forEach(w => {
-            countDataObject[wordsIndex[w]]++;
+        textWords.forEach(item => {
+            wordListsCountData[wordsIndex[item.word]]++;
         })
 
-        console.log(countDataObject);
-        const countData = Object.entries(countDataObject);
+        const countData =  Object.entries(wordListsCountData);
         const isEditor = false;
-        this.setState({ countData, isEditor });
+        this.setState({ countData, textWords, isEditor });
 
     }
 
@@ -38,7 +48,7 @@ class WordCounter extends Component {
         return (
             <div>
                 <div className="text-left pb-2">
-                    <button onClick={this.countWords} className="btn btn-primary">Count</button>
+                    <button onClick={this.processWords} className="btn btn-primary">Count</button>
                 </div>
                 {
                     this.state.isEditor ? (
@@ -46,7 +56,7 @@ class WordCounter extends Component {
                     )
                         :
                         (
-                            <WordCountResultText height={this.state.editorHeight}></WordCountResultText>
+                            <WordCountResultText textWords={this.state.textWords} labels={this.labels} text={this.props.text} height={this.state.editorHeight}></WordCountResultText>
                         )
                 }
 
