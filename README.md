@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Word Count Tool BOx
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React web application that counts the words of a text using different wording lists so that one can determine the kind of words that are used in a text. For example if you add word lists based on word difficulty you may know how difficult the text is.
 
 ## Available Scripts
 
