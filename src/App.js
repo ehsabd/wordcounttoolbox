@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import React, { Component, useState, useRef } from 'react';
+import React, { Component} from 'react';
 
 import { WordListsContainer } from './WordLists.js';
 import WordCounter from './WordCounter';

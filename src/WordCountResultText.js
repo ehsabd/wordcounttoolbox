@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import randomColor from 'randomcolor'
 export default class WordCountResultText extends Component{ 
 
+    constructor(props) {
+        super(props);
+        this.state = {};
+    } 
+
     colors = randomColor({luminosity: 'light',count: 27})
 
     getColor(label){
@@ -21,12 +26,16 @@ export default class WordCountResultText extends Component{
     }
 
     return (
-        <div style={{height:this.props.height}}>
-            {spans.map((item, index)=>{
-                return (
-                    <span key={`span-${index}`} style={{backgroundColor:item.color}}>{item.text}</span>
-                )
-            })}
+        <div style={{height:this.props.height}} className={this.state.isHovered?"border":""}>
+            <div className="result-text-wrap" onClick={this.props.switchedToEditor} 
+            onMouseEnter={()=>{this.setState({isHovered:true})}}
+            onMouseLeave={()=>{this.setState({isHovered:false})}}>
+                {spans.map((item, index)=>{
+                    return (
+                        <span key={`span-${index}`} style={{backgroundColor:item.color}}>{item.text}</span>
+                    )
+                })}
+            </div>
         </div>
     )
  }

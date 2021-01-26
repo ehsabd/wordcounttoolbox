@@ -56,7 +56,7 @@ class WordCounter extends Component {
                     )
                         :
                         (
-                            <WordCountResultText textWords={this.state.textWords} labels={this.labels} text={this.props.text} height={this.state.editorHeight}></WordCountResultText>
+                            <WordCountResultText switchedToEditor={()=>{this.setState({isEditor:true});}} textWords={this.state.textWords} labels={this.labels} text={this.props.text} height={this.state.editorHeight}></WordCountResultText>
                         )
                 }
 
