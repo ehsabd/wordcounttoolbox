@@ -22,6 +22,7 @@ class App extends Component {
     console.log(this.state);
     this.wordListItemChanged = this.wordListItemChanged.bind(this);
     this.textChanged = this.textChanged.bind(this);
+    this.addWordList = this.addWordList.bind(this);
   }
 
   wordListItemChanged(index, label, words) {
@@ -29,6 +30,10 @@ class App extends Component {
     let wordLists = [...this.state.wordLists];
     wordLists[index] = { label: label, words: words };
     this.saveWordLists(wordLists);
+  }
+
+  addWordList(){
+    this.saveWordLists(this.state.wordLists.concat({}));
   }
 
   textChanged(e) {
@@ -48,7 +53,7 @@ class App extends Component {
              <WordCounter textChanged={this.textChanged} text={this.state.text} wordLists={this.state.wordLists}></WordCounter>
             </div>
             <div className="col-sm-4">
-              <WordListsContainer itemChanged={this.wordListItemChanged} wordLists={this.state.wordLists}></WordListsContainer>
+              <WordListsContainer addWordList={this.addWordList} itemChanged={this.wordListItemChanged} wordLists={this.state.wordLists}></WordListsContainer>
             </div>
           </div>
 

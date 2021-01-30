@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 class WordListsContainer extends Component {
 
-  
 
     render() {
       return (
@@ -17,6 +16,9 @@ class WordListsContainer extends Component {
   
             })
           }
+          <div className="">
+              <button onClick={this.props.addWordList} className="btn btn-primary">+</button>
+          </div>
   
         </div>
       )
