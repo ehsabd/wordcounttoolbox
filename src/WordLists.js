@@ -5,10 +5,11 @@ class WordListsContainer extends Component {
     render() {
       return (
   
-        <div className="card">
+        <div className="card mb-2">
           <div className="card-header">
             Word Lists
         </div>
+        <ul className="list-group list-group-flush">
           {
             this.props.wordLists.map((item, index) => {
               
@@ -16,10 +17,19 @@ class WordListsContainer extends Component {
   
             })
           }
-          <div className="">
-              <button onClick={this.props.addWordList} className="btn btn-primary">+</button>
-          </div>
-  
+          
+        
+          <li className="list-group-item px-2">
+            <div className="row">
+              <div className="col-12">
+                <div className="form-group mb-0 text-right">
+                <button onClick={this.props.addWordList} className="btn btn-primary">+ Add Word List</button>
+                </div>
+               
+              </div>
+            </div>   
+          </li>
+        </ul>
         </div>
       )
     }
@@ -43,20 +53,20 @@ class WordListsContainer extends Component {
     
     render() {
       return (
-        <div>
+        <li className="list-group-item px-2">
           <div className="row">
-            <div className="col-sm-3">
+            <div className="col-12">
               <div className="form-group">
                 <input className="form-control" onChange={this.itemLabelChanged} value={this.props.wordListLabel}/>
               </div>
             </div>
-            <div className="col-sm-6">
-              <div className="form-group">
+            <div className="col-12">
+              <div className="form-group mb-0">
                 <textarea className="form-control" onChange={this.itemWordsChanged}>{this.props.wordListWords}</textarea>
               </div>
             </div>
           </div>
-        </div>
+        </li>
       )
     }
   
