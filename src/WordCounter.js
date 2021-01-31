@@ -21,9 +21,11 @@ class WordCounter extends Component {
         let colorId = 0;
         this.props.wordLists.forEach(({ label, words }) => {
             wordListsCountData[label] = 0;
-            words.split(',').forEach(word => {
-                wordsIndex[word.trim()] = label;
-            });
+            if (words != undefined){
+                words.split(',').forEach(word => {
+                    wordsIndex[word.trim()] = label;
+                });
+            }
         });
         const textWords = [...this.props.text.matchAll(/\w+/g)].map(
             m => {
