@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.word-lists input, .word-lists textarea{
+  font-size: 12px !important;
+}

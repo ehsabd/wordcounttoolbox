@@ -47,7 +47,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" /> WordCountToolbox
       </header>
-        <div className="container pt-3">
+        <div className="container-fluid pt-3">
           <div className="row">
             <div className="col-sm-8">
              <WordCounter textChanged={this.textChanged} text={this.state.text} wordLists={this.state.wordLists}></WordCounter>

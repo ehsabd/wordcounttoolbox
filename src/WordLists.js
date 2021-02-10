@@ -9,7 +9,7 @@ class WordListsContainer extends Component {
           <div className="card-header">
             Word Lists
         </div>
-        <ul className="list-group list-group-flush">
+        <ul className="list-group list-group-flush word-lists">
           {
             this.props.wordLists.map((item, index) => {
               
