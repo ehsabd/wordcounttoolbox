@@ -26,7 +26,7 @@ export default class WordCountResultText extends Component{
     }
 
     return (
-        <div style={{height:this.props.height}} className={this.state.isHovered?"border":""}>
+        <div style={{height:this.props.height, overflowY:'scroll'}} className={this.state.isHovered?"border":""}>
             <div className="result-text-wrap" onClick={this.props.switchedToEditor} 
             onMouseEnter={()=>{this.setState({isHovered:true})}}
             onMouseLeave={()=>{this.setState({isHovered:false})}}>

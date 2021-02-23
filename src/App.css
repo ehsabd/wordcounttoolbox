@@ -1,7 +1,3 @@
-.App {
-  text-align: center;
-}
-
 .App-logo {
   height: 10vmin;
   pointer-events: none;
@@ -39,4 +35,9 @@
 
 .word-lists input, .word-lists textarea{
   font-size: 12px !important;
+}
+
+div.result-text-wrap > span {
+  white-space: pre;
+  word-break: break-all;
 }
