@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import React, { Component} from 'react';
-
+import {defaultText} from './DefaultText.js'
 import { WordListsContainer } from './WordLists.js';
 import WordCounter from './WordCounter';
 class App extends Component {
@@ -15,7 +15,7 @@ class App extends Component {
         { label: '2x', words: 'big,brag,band' },
         { label:'wh questions', words:'what,when,where'}
       ],
-      text: 'Hi there!, howdy? What if I brag about something'
+      text: defaultText()
     };
 
     this.loadWordLists();
