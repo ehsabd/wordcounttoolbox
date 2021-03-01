@@ -33,7 +33,7 @@
   }
 }
 
-.word-lists input, .word-lists textarea{
+.word-lists input, .word-lists textarea, .word-lists button{
   font-size: 12px !important;
 }
 

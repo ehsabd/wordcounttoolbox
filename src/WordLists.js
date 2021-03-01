@@ -5,11 +5,13 @@ class WordListsContainer extends Component {
     render() {
       return (
   
-        <div className="card mb-2">
+        <div className="card mb-2 word-lists">
           <div className="card-header">
-            Word Lists
-        </div>
-        <ul className="list-group list-group-flush word-lists">
+            <div className="d-flex flex-row justify-content-between align-items-center">
+               Word Lists
+             <button className="btn btn-primary" onClick={this.props.loadWordFreqLists}>Load Word Freq. Lists</button></div>
+          </div>
+        <ul className="list-group list-group-flush">
           {
             this.props.wordLists.map((item, index) => {
               

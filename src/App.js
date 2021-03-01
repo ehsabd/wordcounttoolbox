@@ -5,6 +5,8 @@ import React, { Component} from 'react';
 import {defaultText} from './DefaultText.js'
 import { WordListsContainer } from './WordLists.js';
 import WordCounter from './WordCounter';
+import {WordFrequencyLoader} from './ExternalWordLists';
+
 class App extends Component {
 
   constructor(props) {
@@ -23,6 +25,7 @@ class App extends Component {
     this.wordListItemChanged = this.wordListItemChanged.bind(this);
     this.textChanged = this.textChanged.bind(this);
     this.addWordList = this.addWordList.bind(this);
+    this.loadWordFreqLists = this.loadWordFreqLists.bind(this);
   }
 
   wordListItemChanged(index, label, words) {
@@ -34,6 +37,10 @@ class App extends Component {
 
   addWordList(){
     this.saveWordLists(this.state.wordLists.concat({}));
+  }
+
+  loadWordFreqLists(){
+    this.loadWordLists(WordFrequencyLoader);
   }
 
   textChanged(e) {
@@ -53,7 +60,7 @@ class App extends Component {
              <WordCounter textChanged={this.textChanged} text={this.state.text} wordLists={this.state.wordLists}></WordCounter>
             </div>
             <div className="col-sm-4">
-              <WordListsContainer addWordList={this.addWordList} itemChanged={this.wordListItemChanged} wordLists={this.state.wordLists}></WordListsContainer>
+              <WordListsContainer addWordList={this.addWordList} loadWordFreqLists={this.loadWordFreqLists} itemChanged={this.wordListItemChanged} wordLists={this.state.wordLists}></WordListsContainer>
             </div>
           </div>
 
@@ -65,28 +72,41 @@ class App extends Component {
   }
 
   localStorageWordListLoader() {
-    let wordLists = null;
-    const wordListsJson = localStorage.getItem('wordLists');
-    try {
-      wordLists = JSON.parse(wordListsJson);
-    }
-    catch (err) {
-      console.log('ERROR parsing JSON');
-    }
-    return wordLists;
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(()=>{let wordLists = null;
+      const wordListsJson = localStorage.getItem('wordLists');
+      try {
+         resolve(JSON.parse(wordListsJson));
+      }
+      catch (err) {
+        reject('ERROR parsing JSON');
+      }
+    });},0);
+    return promise;
   }
 
   localStorageWordListSaver(wordLists){
-    const wordListsJson = JSON.stringify(wordLists);
-    localStorage.setItem('wordLists', wordListsJson);
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(()=>{
+      try {
+        const wordListsJson = JSON.stringify(wordLists);
+        localStorage.setItem('wordLists', wordListsJson);
+        resolve('success');
+      }
+      catch (err) {
+        reject('error saving to localStorage');
+      }},0);
+    });
+    return promise;
   }
 
   loadWordLists(loader = this.localStorageWordListLoader) {
-    const wordLists = loader();
-    console.log(wordLists);
-    if (wordLists != null) {
-      this.state['wordLists'] = wordLists;
-    }
+    loader().then((wordLists)=>{
+      console.log(wordLists);
+      if (wordLists != null) {
+        this.setState({wordLists})
+      }
+    })
   }
 
   saveWordLists(wordLists, saver = this.localStorageWordListSaver) {
