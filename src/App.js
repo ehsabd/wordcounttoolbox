@@ -69,7 +69,7 @@ class App extends Component {
     );
   }
 
-  loadWordLists() {
+  localStorageWordListLoader() {
     let wordLists = null;
     const wordListsJson = localStorage.getItem('wordLists');
     try {
@@ -78,16 +78,25 @@ class App extends Component {
     catch (err) {
       console.log('ERROR parsing JSON');
     }
+    return wordLists;
+  }
+
+  localStorageWordListSaver(wordLists){
+    const wordListsJson = JSON.stringify(wordLists);
+    localStorage.setItem('wordLists', wordListsJson);
+  }
+
+  loadWordLists(loader = this.localStorageWordListLoader) {
+    const wordLists = loader();
     console.log(wordLists);
     if (wordLists != null) {
       this.state['wordLists'] = wordLists;
     }
   }
 
-  saveWordLists(wordLists) {
+  saveWordLists(wordLists, saver = this.localStorageWordListSaver) {
     this.setState({ wordLists });
-    const wordListsJson = JSON.stringify(wordLists);
-    localStorage.setItem('wordLists', wordListsJson);
+    saver(wordLists);
   }
 
 
