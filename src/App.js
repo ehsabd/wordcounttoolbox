@@ -23,6 +23,7 @@ class App extends Component {
     this.wordListItemChanged = this.wordListItemChanged.bind(this);
     this.textChanged = this.textChanged.bind(this);
     this.addWordList = this.addWordList.bind(this);
+    this.loadWordFreqLists = this.loadWordFreqLists.bind(this);
   }
 
   wordListItemChanged(index, label, words) {
@@ -34,6 +35,10 @@ class App extends Component {
 
   addWordList(){
     this.saveWordLists(this.state.wordLists.concat({}));
+  }
+
+  loadWordFreqLists(){
+    // TODO
   }
 
   textChanged(e) {
@@ -53,7 +58,7 @@ class App extends Component {
              <WordCounter textChanged={this.textChanged} text={this.state.text} wordLists={this.state.wordLists}></WordCounter>
             </div>
             <div className="col-sm-4">
-              <WordListsContainer addWordList={this.addWordList} itemChanged={this.wordListItemChanged} wordLists={this.state.wordLists}></WordListsContainer>
+              <WordListsContainer addWordList={this.addWordList} loadWordFreqLists={this.loadWordFreqLists} itemChanged={this.wordListItemChanged} wordLists={this.state.wordLists}></WordListsContainer>
             </div>
           </div>
 
