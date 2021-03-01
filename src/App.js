@@ -70,28 +70,40 @@ class App extends Component {
   }
 
   localStorageWordListLoader() {
-    let wordLists = null;
-    const wordListsJson = localStorage.getItem('wordLists');
-    try {
-      wordLists = JSON.parse(wordListsJson);
-    }
-    catch (err) {
-      console.log('ERROR parsing JSON');
-    }
-    return wordLists;
+    const promise = new Promise((resolve, reject) => {
+      let wordLists = null;
+      const wordListsJson = localStorage.getItem('wordLists');
+      try {
+         resolve(JSON.parse(wordListsJson));
+      }
+      catch (err) {
+        reject('ERROR parsing JSON');
+      }
+    });
+    return promise;
   }
 
   localStorageWordListSaver(wordLists){
-    const wordListsJson = JSON.stringify(wordLists);
-    localStorage.setItem('wordLists', wordListsJson);
+    const promise = new Promise((resolve, reject) => {
+      try {
+        const wordListsJson = JSON.stringify(wordLists);
+        localStorage.setItem('wordLists', wordListsJson);
+        resolve('success');
+      }
+      catch (err) {
+        reject('error saving to localStorage');
+      }
+    });
+    return promise;
   }
 
   loadWordLists(loader = this.localStorageWordListLoader) {
-    const wordLists = loader();
-    console.log(wordLists);
-    if (wordLists != null) {
-      this.state['wordLists'] = wordLists;
-    }
+    loader().then((wordLists)=>{
+      console.log(wordLists);
+      if (wordLists != null) {
+        this.setState({wordLists})
+      }
+    })
   }
 
   saveWordLists(wordLists, saver = this.localStorageWordListSaver) {
