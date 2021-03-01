@@ -64,7 +64,7 @@ class WordListsContainer extends Component {
             </div>
             <div className="col-12">
               <div className="form-group mb-0">
-                <textarea className="form-control" onChange={this.itemWordsChanged}>{this.props.wordListWords}</textarea>
+                <textarea className="form-control" onChange={this.itemWordsChanged} value={this.props.wordListWords}></textarea>
               </div>
             </div>
           </div>

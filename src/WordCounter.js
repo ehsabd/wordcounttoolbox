@@ -54,7 +54,7 @@ class WordCounter extends Component {
                 </div>
                 {
                     this.state.isEditor ? (
-                        <textarea style={{ height: this.state.editorHeight }} className="w-100" rows="10" onChange={this.props.textChanged}>{this.props.text}</textarea>
+                        <textarea style={{ height: this.state.editorHeight }} className="w-100" rows="10" onChange={this.props.textChanged} value={this.props.text}></textarea>
                     )
                         :
                         (
