@@ -104,7 +104,8 @@ class App extends Component {
     loader().then((wordLists)=>{
       console.log(wordLists);
       if (wordLists != null) {
-        this.setState({wordLists})
+        this.setState({wordLists:[]});
+        this.setState({wordLists});
       }
     })
   }
