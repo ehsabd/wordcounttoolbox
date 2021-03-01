@@ -5,6 +5,8 @@ import React, { Component} from 'react';
 import {defaultText} from './DefaultText.js'
 import { WordListsContainer } from './WordLists.js';
 import WordCounter from './WordCounter';
+import {WordFrequencyLoader} from './ExternalWordLists';
+
 class App extends Component {
 
   constructor(props) {
@@ -38,7 +40,7 @@ class App extends Component {
   }
 
   loadWordFreqLists(){
-    // TODO
+    this.loadWordLists(WordFrequencyLoader);
   }
 
   textChanged(e) {
@@ -71,7 +73,7 @@ class App extends Component {
 
   localStorageWordListLoader() {
     const promise = new Promise((resolve, reject) => {
-      let wordLists = null;
+      setTimeout(()=>{let wordLists = null;
       const wordListsJson = localStorage.getItem('wordLists');
       try {
          resolve(JSON.parse(wordListsJson));
@@ -79,12 +81,13 @@ class App extends Component {
       catch (err) {
         reject('ERROR parsing JSON');
       }
-    });
+    });},0);
     return promise;
   }
 
   localStorageWordListSaver(wordLists){
     const promise = new Promise((resolve, reject) => {
+      setTimeout(()=>{
       try {
         const wordListsJson = JSON.stringify(wordLists);
         localStorage.setItem('wordLists', wordListsJson);
@@ -92,7 +95,7 @@ class App extends Component {
       }
       catch (err) {
         reject('error saving to localStorage');
-      }
+      }},0);
     });
     return promise;
   }
