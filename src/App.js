@@ -8,17 +8,18 @@ import WordCounter from './WordCounter';
 import {WordFrequencyLoader} from './ExternalWordLists';
 
 class App extends Component {
+  
+  state = {
+    wordLists: [
+      { label: '1x', words: 'hi,hello,howdy' },
+      { label: '2x', words: 'big,brag,band' },
+      { label:'wh questions', words:'what,when,where'}
+    ],
+    text: defaultText()
+  };
 
   constructor(props) {
     super(props);
-    this.state = {
-      wordLists: [
-        { label: '1x', words: 'hi,hello,howdy' },
-        { label: '2x', words: 'big,brag,band' },
-        { label:'wh questions', words:'what,when,where'}
-      ],
-      text: defaultText()
-    };
 
     this.loadWordLists();
     console.log(this.state);
