@@ -10,11 +10,7 @@ import {WordFrequencyLoader} from './ExternalWordLists';
 class App extends Component {
   
   state = {
-    wordLists: [
-      { label: '1x', words: 'hi,hello,howdy' },
-      { label: '2x', words: 'big,brag,band' },
-      { label:'wh questions', words:'what,when,where'}
-    ],
+    wordLists: [],
     text: defaultText()
   };
 
