@@ -70,7 +70,7 @@ class App extends Component {
 
   localStorageWordListLoader() {
     const promise = new Promise((resolve, reject) => {
-      setTimeout(()=>{let wordLists = null;
+      setTimeout(()=>{
       const wordListsJson = localStorage.getItem('wordLists');
       try {
          resolve(JSON.parse(wordListsJson));
