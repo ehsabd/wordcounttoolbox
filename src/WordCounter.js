@@ -12,7 +12,6 @@ class WordCounter extends Component {
             editorHeight: '300px',
             isEditor: true
         };
-        this.labels = this.props.wordLists.map(({label, words})=>label);
     }
 
     processWords() {
@@ -58,7 +57,7 @@ class WordCounter extends Component {
                     )
                         :
                         (
-                            <WordCountResultText switchedToEditor={()=>{this.setState({isEditor:true});}} textWords={this.state.textWords} labels={this.labels} text={this.props.text} height={this.state.editorHeight}></WordCountResultText>
+                            <WordCountResultText switchedToEditor={()=>{this.setState({isEditor:true});}} textWords={this.state.textWords} labels={this.props.wordLists.map(({label, words})=>label)} text={this.props.text} height={this.state.editorHeight}></WordCountResultText>
                         )
                 }
 

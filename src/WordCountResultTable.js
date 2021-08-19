@@ -11,18 +11,20 @@ class WordCountResultTable extends Component{
             </div>
             <table className="table">
                 <thead>
-                    <th>
-                        List
-                    </th>
-                    <th>
-                        Count
-                    </th>
+                    <tr>
+                        <th>
+                            List
+                        </th>
+                        <th>
+                            Count
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
                     {
                         this.props.countData.map((item, index)=>{
                             return (
-                                <tr key={`list-index`}><td>
+                                <tr key={`list-${index}`}><td>
                                     {(item[0]==='undefined') ? 'No List':item[0] }</td>
                                     <td>{item[1]}</td></tr>
                             )

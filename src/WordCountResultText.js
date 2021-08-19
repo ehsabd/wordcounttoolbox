@@ -5,9 +5,11 @@ export default class WordCountResultText extends Component{
     constructor(props) {
         super(props);
         this.state = {};
+        this.colors = randomColor({luminosity: 'light',count: 27});
+        console.log(props.labels);
     } 
 
-    colors = randomColor({luminosity: 'light',count: 27})
+    
 
     getColor(label){
         return this.colors[this.props.labels.indexOf(label)];
