@@ -5,7 +5,7 @@ export const WordFrequencyLoader = ()=>{
         axios.get(url)
         .then((value)=>{
             console.log(value.data);
-            value.data.map((x,i)=>{x.color=`rgba(${200-i*20},${200-i*20},255,1)`})
+            value.data.forEach((x,i)=>{x.color=`rgba(${200-i*20},${200-i*20},255,1)`})
             resolve(value.data)
         }).catch((reason)=>{reject(reason)});
     })

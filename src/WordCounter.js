@@ -32,7 +32,7 @@ class WordCounter extends Component {
                 const length = m[0].length;
                 let label = undefined;
                 let color = undefined;
-                if (wordsIndex[word] != undefined){
+                if (wordsIndex[word] !== undefined){
                     label = wordsIndex[word].label;
                     color = wordsIndex[word].color;
                 }
