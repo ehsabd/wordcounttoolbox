@@ -25,10 +25,10 @@ class App extends Component {
     this.loadWordFreqLists = this.loadWordFreqLists.bind(this);
   }
 
-  wordListItemChanged(index, label, words) {
+  wordListItemChanged(index, obj) {
     console.log('wordListItemChanged');
     let wordLists = [...this.state.wordLists];
-    wordLists[index] = { label: label, words: words };
+    Object.assign(wordLists[index], obj);
     this.saveWordLists(wordLists);
   }
 

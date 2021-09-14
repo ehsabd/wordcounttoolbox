@@ -17,11 +17,11 @@ class WordCounter extends Component {
     processWords() {
         let wordsIndex = {};
         let wordListsCountData = { undefined: 0 };
-        this.props.wordLists.forEach(({ label, words }) => {
+        this.props.wordLists.forEach(({ label, words, color }) => {
             wordListsCountData[label] = 0;
             if (words !== undefined){
                 words.split(',').forEach(word => {
-                    wordsIndex[word.trim()] = label;
+                    wordsIndex[word.trim()] = {label, color};
                 });
             }
         });
@@ -30,8 +30,13 @@ class WordCounter extends Component {
                 const word = m[0].toLowerCase();
                 const index = m.index;
                 const length = m[0].length;
-                const label = wordsIndex[word];
-                return {word, index, length, label}
+                let label = undefined;
+                let color = undefined;
+                if (wordsIndex[word] != undefined){
+                    label = wordsIndex[word].label;
+                    color = wordsIndex[word].color;
+                }
+                return {word, index, length, label, color}
             });
 
         textWords.forEach(item => {

@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
-import randomColor from 'randomcolor'
 export default class WordCountResultText extends Component{ 
 
     constructor(props) {
         super(props);
         this.state = {};
-        this.colors = randomColor({luminosity: 'light',count: 27});
-        console.log(props.labels);
     } 
 
-    
-
-    getColor(label){
-        return this.colors[this.props.labels.indexOf(label)];
-    }
+   
 
     render(){
 
@@ -24,7 +17,7 @@ export default class WordCountResultText extends Component{
         if (i>0){//whitespaces!
           spans.push({text:text.substring(textWords[i-1].index+textWords[i-1].length, word.index)})
         }
-        spans.push({text: word.word, color:this.getColor(word.label)});
+        spans.push({text: word.word, color:word.color});
     }
 
     return (

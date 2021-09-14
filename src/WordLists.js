@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
+import { TwitterPicker } from 'react-color';
+import randomColor from 'randomcolor'
+
 class WordListsContainer extends Component {
 
-
+    constructor(props){
+      super(props);
+      this.colors = randomColor({luminosity: 'light',count: 27});
+    }
     render() {
       return (
   
@@ -15,7 +21,7 @@ class WordListsContainer extends Component {
           {
             this.props.wordLists.map((item, index) => {
               
-              return <WordListItem key={index} wordListIndex={index} wordListLabel={item.label} wordListWords={item.words} itemChanged={this.props.itemChanged}></WordListItem>
+              return <WordListItem key={index} wordListIndex={index} wordListLabel={item.label} wordListWords={item.words}  wordListColor={item.color} itemChanged={this.props.itemChanged}></WordListItem>
   
             })
           }
@@ -40,31 +46,51 @@ class WordListsContainer extends Component {
   class WordListItem extends Component {
     constructor(props) {
       super(props)
-  
+      this.state={};
       this.itemLabelChanged = this.itemLabelChanged.bind(this);
       this.itemWordsChanged = this.itemWordsChanged.bind(this);
+      this.itemColorChanged = this.itemColorChanged.bind(this);
+      this.toggleColorPicker = this.toggleColorPicker.bind(this);
     }
   
     itemLabelChanged(e){
-      this.props.itemChanged(this.props.wordListIndex, e.target.value, this.props.wordListWords);
+      const label = e.target.value;
+      this.props.itemChanged(this.props.wordListIndex, {label});
     }
   
     itemWordsChanged(e){
-      this.props.itemChanged(this.props.wordListIndex, this.props.wordListLabel, e.target.value);
+      const words = e.target.value;
+      this.props.itemChanged(this.props.wordListIndex, {words} );
+    }
+
+    itemColorChanged(colorObj){
+      const color = colorObj.hex;
+      this.props.itemChanged(this.props.wordListIndex, {color});
+    }
+
+    toggleColorPicker(){
+      const showColorPicker = !this.state.showColorPicker;
+      this.setState({showColorPicker});
     }
     
     render() {
       return (
         <li className="list-group-item px-2">
           <div className="row">
-            <div className="col-12">
+            <div className="col-11">
               <div className="form-group">
-                <input className="form-control" onChange={this.itemLabelChanged} value={this.props.wordListLabel}/>
+                <input className="form-control" onChange={this.itemLabelChanged} value={this.props.wordListLabel} placeholder="Word List Label"/>
               </div>
             </div>
+            <div className="col-1">
+              <span className="color-picker" style={{backgroundColor:this.props.wordListColor}} onClick={this.toggleColorPicker}></span>  
+            </div>
+            { this.state.showColorPicker && <div className="col-12">
+              <TwitterPicker color={this.props.wordListColor} onChangeComplete={this.itemColorChanged} colors={this.colors}></TwitterPicker>
+            </div>}
             <div className="col-12">
               <div className="form-group mb-0">
-                <textarea className="form-control" onChange={this.itemWordsChanged} value={this.props.wordListWords}></textarea>
+                <textarea className="form-control" onChange={this.itemWordsChanged} value={this.props.wordListWords} placeholder="Comma-Separated Words"></textarea>
               </div>
             </div>
           </div>
