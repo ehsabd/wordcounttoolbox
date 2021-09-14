@@ -6,7 +6,7 @@ class WordListsContainer extends Component {
 
     constructor(props){
       super(props);
-      this.colors = randomColor({luminosity: 'light',count: 27});
+      this.colorPickerColors = randomColor({luminosity: 'bright',count: 27});
     }
     render() {
       return (
@@ -21,7 +21,12 @@ class WordListsContainer extends Component {
           {
             this.props.wordLists.map((item, index) => {
               
-              return <WordListItem key={index} wordListIndex={index} wordListLabel={item.label} wordListWords={item.words}  wordListColor={item.color} itemChanged={this.props.itemChanged}></WordListItem>
+              return <WordListItem key={index} wordListIndex={index} 
+              wordListLabel={item.label} 
+              wordListWords={item.words}  
+              wordListColor={item.color} 
+              itemChanged={this.props.itemChanged}
+              colorPickerColors={this.colorPickerColors}></WordListItem>
   
             })
           }
@@ -66,6 +71,7 @@ class WordListsContainer extends Component {
     itemColorChanged(colorObj){
       const color = colorObj.hex;
       this.props.itemChanged(this.props.wordListIndex, {color});
+      this.setState({showColorPicker:false});
     }
 
     toggleColorPicker(){
@@ -82,11 +88,10 @@ class WordListsContainer extends Component {
                 <input className="form-control" onChange={this.itemLabelChanged} value={this.props.wordListLabel} placeholder="Word List Label"/>
               </div>
             </div>
-            <div className="col-1">
-              <span className="color-picker" style={{backgroundColor:this.props.wordListColor}} onClick={this.toggleColorPicker}></span>  
-            </div>
-            { this.state.showColorPicker && <div className="col-12">
-              <TwitterPicker color={this.props.wordListColor} onChangeComplete={this.itemColorChanged} colors={this.colors}></TwitterPicker>
+            <span className="color-picker" style={{backgroundColor:this.props.wordListColor}} onClick={this.toggleColorPicker}></span>  
+
+            { this.state.showColorPicker && <div className="col-12 d-flex flex-row-reverse">
+              <TwitterPicker color={this.props.wordListColor} onChangeComplete={this.itemColorChanged} colors={this.props.colorPickerColors} triangle="top-right"></TwitterPicker>
             </div>}
             <div className="col-12">
               <div className="form-group mb-0">
