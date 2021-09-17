@@ -6,12 +6,13 @@ import {defaultText} from './DefaultText.js'
 import { WordListsContainer } from './WordLists.js';
 import WordCounter from './WordCounter';
 import {WordFrequencyLoader} from './ExternalWordLists';
-
+import WizardModal from './WizardModal';
 class App extends Component {
   
   state = {
     wordLists: [],
-    text: defaultText()
+    text: defaultText(),
+    showWizard:true
   };
 
   constructor(props) {
@@ -23,6 +24,7 @@ class App extends Component {
     this.textChanged = this.textChanged.bind(this);
     this.addWordList = this.addWordList.bind(this);
     this.loadWordFreqLists = this.loadWordFreqLists.bind(this);
+    this.wizardClosed = this.wizardClosed.bind(this);
   }
 
   wordListItemChanged(index, obj) {
@@ -44,10 +46,16 @@ class App extends Component {
     this.setState({ text: e.target.value });
   }
 
+  wizardClosed(){
+    this.setState({showWizard:false});
+  }
+
   render() {
 
     return (
       <div className="App">
+        <div className={`modal-backdrop fade show ${this.state.showWizard?'':'d-none'}`}></div>
+        <WizardModal showModal={this.state.showWizard} modalClosed={this.wizardClosed}></WizardModal>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" /> WordCountToolbox
       </header>
