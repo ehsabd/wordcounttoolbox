@@ -50,4 +50,5 @@ div.result-text-wrap > span {
   border-radius: 50%;
   right:10px;
   top:15px;
+  border: solid 1px #aaa;
 }
