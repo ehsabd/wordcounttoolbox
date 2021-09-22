@@ -1,18 +1,18 @@
 import { Component } from 'react';
-
+import {Link, useRouteMatch} from 'react-router-dom';
+import {withRouter} from 'react-router';
 class WizardModal extends Component {
 
     state={whoOptions:[
     {text:'Writer',},{text:'Student'},{text:'Job Seeker'},{text:'Teacher'}]}
 
     render() {
+        const {match:{url, path}} = this.props;
         return  <div className={`modal fade ${(this.props.showModal? 'show d-block':'')}`} tabindex="-1" role="dialog"     aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header border-0">
-                                <button type="button" onClick={this.props.modalClosed} className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                            <Link to="/wordcounttoolbox"className="close"><span aria-hidden="true">&times;</span></Link>
                             </div>
                             <div className="modal-body">
                                 <p className="text-muted text-center">Let us guide you on how WordCountToolbox helps you!</p>
@@ -31,7 +31,7 @@ class WizardModal extends Component {
 
                             </div>
                             <div className="modal-footer border-0">
-                                <button type="button" className="btn btn-secondary" onClick={this.props.modalClosed}>Close</button>
+                            <Link to="/wordcounttoolbox"className="btn btn-secondary">Close</Link>
                                 <button type="button" className="btn btn-primary">Next</button>
                             </div>
                         </div>
@@ -40,4 +40,4 @@ class WizardModal extends Component {
     }
 }
 
-export default WizardModal;
+export default withRouter(WizardModal);

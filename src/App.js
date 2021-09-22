@@ -7,6 +7,8 @@ import { WordListsContainer } from './WordLists.js';
 import WordCounter from './WordCounter';
 import {WordFrequencyLoader} from './ExternalWordLists';
 import WizardModal from './WizardModal';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+
 class App extends Component {
   
   state = {
@@ -17,14 +19,16 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-
-    this.loadWordLists();
     console.log(this.state);
     this.wordListItemChanged = this.wordListItemChanged.bind(this);
     this.textChanged = this.textChanged.bind(this);
     this.addWordList = this.addWordList.bind(this);
     this.loadWordFreqLists = this.loadWordFreqLists.bind(this);
-    this.wizardClosed = this.wizardClosed.bind(this);
+
+  }
+
+  componentDidMount(){
+    this.loadWordLists();
   }
 
   wordListItemChanged(index, obj) {
@@ -46,16 +50,25 @@ class App extends Component {
     this.setState({ text: e.target.value });
   }
 
-  wizardClosed(){
-    this.setState({showWizard:false});
-  }
-
   render() {
 
     return (
       <div className="App">
-        <div className={`modal-backdrop fade show ${this.state.showWizard?'':'d-none'}`}></div>
-        <WizardModal showModal={this.state.showWizard} modalClosed={this.wizardClosed}></WizardModal>
+        <Router>
+          <Switch>
+            <Route path="/wordcounttoolbox/wizard">
+              <WizardModal showModal={this.state.showWizard}></WizardModal>
+              <div className={`modal-backdrop fade show`}></div>
+            </Route>
+            <Route>
+              <p>
+              Do you want to use the wizard to get started with wordcounttoolbox?
+
+              </p>
+              <Link to="/wordcounttoolbox/wizard">Click Here!</Link>
+            </Route>
+          </Switch>
+        </Router>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" /> WordCountToolbox
       </header>
