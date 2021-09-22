@@ -9,6 +9,12 @@ class WordListItem extends Component {
       this.itemWordsChanged = this.itemWordsChanged.bind(this);
       this.itemColorChanged = this.itemColorChanged.bind(this);
       this.toggleColorPicker = this.toggleColorPicker.bind(this);
+      console.log(this.props.wordListColor );
+      if (this.props.wordListColor === undefined){
+        const n = this.props.colorPickerColors.length;
+        const color = {hex: this.props.colorPickerColors[Math.floor(Math.random()*n)]};
+        this.itemColorChanged(color)
+      }
     }
   
     itemLabelChanged(e){
