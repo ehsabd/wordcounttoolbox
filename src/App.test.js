@@ -3,6 +3,8 @@ import App from './App';
 
 test('renders WordCountToolbox heading', () => {
   render(<App />);
-  const linkElement = screen.getByText(/WordCountToolbox/i);
-  expect(linkElement).toBeInTheDocument();
+  const elms = screen.getAllByText(/WordCountToolbox/i);
+  elms.forEach((elm)=>{
+    expect(elm).toBeInTheDocument();
+  })
 });
