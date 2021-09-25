@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/wordcounttoolbox/static/css/main.ce441437.chunk.css",
-    "main.js": "/wordcounttoolbox/static/js/main.cd5a76c6.chunk.js",
-    "main.js.map": "/wordcounttoolbox/static/js/main.cd5a76c6.chunk.js.map",
+    "main.js": "/wordcounttoolbox/static/js/main.16914efa.chunk.js",
+    "main.js.map": "/wordcounttoolbox/static/js/main.16914efa.chunk.js.map",
     "runtime-main.js": "/wordcounttoolbox/static/js/runtime-main.ee6d1c83.js",
     "runtime-main.js.map": "/wordcounttoolbox/static/js/runtime-main.ee6d1c83.js.map",
     "static/css/2.570bf022.chunk.css": "/wordcounttoolbox/static/css/2.570bf022.chunk.css",
@@ -21,6 +21,6 @@
     "static/css/2.570bf022.chunk.css",
     "static/js/2.b6a46679.chunk.js",
     "static/css/main.ce441437.chunk.css",
-    "static/js/main.cd5a76c6.chunk.js"
+    "static/js/main.16914efa.chunk.js"
   ]
 }
