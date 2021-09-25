@@ -38,9 +38,12 @@ class WordCounter extends Component {
                 }
                 return {word, index, length, label, color}
             });
-
+        console.log(JSON.stringify(wordsIndex));
+        
         textWords.forEach(item => {
-            wordListsCountData[wordsIndex[item.word]]++;
+            const key = wordsIndex[item.word]?.label;
+            wordListsCountData[key]++;
+            
         })
 
         const countData =  Object.entries(wordListsCountData);
