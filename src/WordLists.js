@@ -26,6 +26,7 @@ class WordListsContainer extends Component {
               wordListWords={item.words}  
               wordListColor={item.color} 
               itemChanged={this.props.itemChanged}
+              deleteClicked={(e)=>{this.props.deleteWordList(e, index)}}
               colorPickerColors={this.colorPickerColors}></WordListItem>
   
             })

@@ -24,11 +24,16 @@ class App extends Component {
     this.textChanged = this.textChanged.bind(this);
     this.addWordList = this.addWordList.bind(this);
     this.loadWordFreqLists = this.loadWordFreqLists.bind(this);
+    this.deleteWordList = this.deleteWordList.bind(this);
 
   }
 
   componentDidMount(){
     this.loadWordLists();
+  }
+
+  deleteWordList(e, index){
+    this.saveWordLists(this.state.wordLists.filter((item, i)=>i !== index));
   }
 
   wordListItemChanged(index, obj) {
@@ -78,7 +83,7 @@ class App extends Component {
              <WordCounter textChanged={this.textChanged} text={this.state.text} wordLists={this.state.wordLists}></WordCounter>
             </div>
             <div className="col-sm-4">
-              <WordListsContainer addWordList={this.addWordList} loadWordFreqLists={this.loadWordFreqLists} itemChanged={this.wordListItemChanged} wordLists={this.state.wordLists}></WordListsContainer>
+              <WordListsContainer addWordList={this.addWordList} deleteWordList={this.deleteWordList} loadWordFreqLists={this.loadWordFreqLists} itemChanged={this.wordListItemChanged} wordLists={this.state.wordLists}></WordListsContainer>
             </div>
           </div>
 

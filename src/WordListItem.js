@@ -57,6 +57,10 @@ class WordListItem extends Component {
                 <textarea className="form-control" onChange={this.itemWordsChanged} value={this.props.wordListWords} placeholder="Comma-Separated Words"></textarea>
               </div>
             </div>
+            <div className="col-6">
+            <button onClick={this.props.deleteClicked} className="btn btn-primary">Delete</button>
+                
+            </div>
           </div>
         </li>
       )
