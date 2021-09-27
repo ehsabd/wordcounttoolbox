@@ -24,7 +24,7 @@ class WizardModal extends Component {
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header border-0">
-                            <a className="btn close" onClick={this.closeModal}><span aria-hidden="true">&times;</span></a>
+                            <button className="border-0 close" onClick={this.closeModal}><span aria-hidden="true">&times;</span></button>
                             </div>
                             
                             <Router>
@@ -42,7 +42,7 @@ class WizardModal extends Component {
                                             <div className="row mt-4">
                                                 {
                                                     this.state.whoOptions.map((o) => {
-                                                        return <div className="col-sm-3 col-xs-6"><Link to={`${url}/${o.slug}`} class="btn shadow w-100 h-100" style={{ backgroundColor: o.isSelected ? 'gold' : 'white' }} for="option2">{o.text}
+                                                        return <div className="col-sm-3 col-xs-6"><Link to={`${url}/${o.slug}`} className="btn shadow w-100 h-100" style={{ backgroundColor: o.isSelected ? 'gold' : 'white' }} for="option2">{o.text}
                                                         </Link></div>;
                                                     })
                                                 }
