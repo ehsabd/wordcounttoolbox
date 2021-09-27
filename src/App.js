@@ -12,8 +12,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 class App extends Component {
   
   state = {
-    wordLists: [],
-    text: defaultText(),
+    project:{
+      wordLists: [],
+      text: defaultText(),
+    },
     showWizard:true
   };
 
@@ -29,30 +31,37 @@ class App extends Component {
   }
 
   componentDidMount(){
-    this.loadWordLists();
+    this.loadProject();
   }
 
   deleteWordList(e, index){
-    this.saveWordLists(this.state.wordLists.filter((item, i)=>i !== index));
+    this.saveWordLists(this.state.project.wordLists.filter((item, i)=>i !== index));
   }
 
   wordListItemChanged(index, obj) {
     console.log('wordListItemChanged');
-    let wordLists = [...this.state.wordLists];
+    let wordLists = [...this.state.project.wordLists];
     Object.assign(wordLists[index], obj);
     this.saveWordLists(wordLists);
   }
 
   addWordList(){
-    this.saveWordLists(this.state.wordLists.concat({}));
+    this.saveWordLists(this.state.project.wordLists.concat({}));
   }
 
   loadWordFreqLists(){
-    this.loadWordLists(WordFrequencyLoader);
+    WordFrequencyLoader().then((wordLists)=>{
+      console.log(wordLists);
+      if (wordLists != null) {
+        this.saveProject({wordLists})
+      }
+    })
   }
 
   textChanged(e) {
-    this.setState({ text: e.target.value });
+    const text = e.target.value;
+    console.log(text);
+    this.saveProject({text})
   }
 
   render() {
@@ -80,10 +89,10 @@ class App extends Component {
         <div className="container-fluid pt-3">
           <div className="row">
             <div className="col-sm-8">
-             <WordCounter textChanged={this.textChanged} text={this.state.text} wordLists={this.state.wordLists}></WordCounter>
+             <WordCounter textChanged={this.textChanged} text={this.state.project.text} wordLists={this.state.project.wordLists}></WordCounter>
             </div>
             <div className="col-sm-4">
-              <WordListsContainer addWordList={this.addWordList} deleteWordList={this.deleteWordList} loadWordFreqLists={this.loadWordFreqLists} itemChanged={this.wordListItemChanged} wordLists={this.state.wordLists}></WordListsContainer>
+              <WordListsContainer addWordList={this.addWordList} deleteWordList={this.deleteWordList} loadWordFreqLists={this.loadWordFreqLists} itemChanged={this.wordListItemChanged} wordLists={this.state.project.wordLists}></WordListsContainer>
             </div>
           </div>
 
@@ -94,7 +103,7 @@ class App extends Component {
     );
   }
 
-  localStorageLoader(key='wordLists') {
+  localStorageLoader(key='wct_project') {
     const promise = new Promise((resolve, reject) => {
       setTimeout(()=>{
       const objJson = localStorage.getItem(key);
@@ -108,7 +117,7 @@ class App extends Component {
     return promise;
   }
 
-  localStorageSaver(obj, key='wordLists'){
+  localStorageSaver(obj, key='wct_project'){
     const promise = new Promise((resolve, reject) => {
       setTimeout(()=>{
       try {
@@ -123,19 +132,24 @@ class App extends Component {
     return promise;
   }
 
-  loadWordLists(loader = this.localStorageLoader) {
-    loader().then((wordLists)=>{
-      console.log(wordLists);
-      if (wordLists != null) {
-        this.setState({wordLists:[]});
-        this.setState({wordLists});
+  loadProject(loader = this.localStorageLoader) {
+    loader().then((project)=>{
+      console.log(project);
+      if (project != null) {
+        this.setState({project});
       }
     })
   }
 
-  saveWordLists(wordLists, saver = this.localStorageSaver) {
-    this.setState({ wordLists });
-    saver(wordLists);
+  saveProject(projectMoified, saver = this.localStorageSaver ){
+    let project = {...this.state.project};
+    Object.assign(project, projectMoified);
+    this.setState({project});
+    saver(project);
+  }
+
+  saveWordLists(wordLists)  {
+    this.saveProject({ wordLists });
   }
 
 
