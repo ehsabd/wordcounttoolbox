@@ -10,7 +10,7 @@ class WizardModal extends Component {
     render() {
         console.log(this.props);
         const {match:{url, path}} = this.props;
-        return  <div className={`modal fade ${(this.props.showModal? 'show d-block':'')}`} tabindex="-1" role="dialog"     aria-hidden="true">
+        return  <div className="modal fade show d-block" tabindex="-1" role="dialog" aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header border-0">
@@ -19,7 +19,8 @@ class WizardModal extends Component {
                             
                             <Router>
                                 <Switch>
-                                    <Route path={`${path}/jobseeker`} component={WizardJobSeeker}>
+                                    <Route path={`${path}/jobseeker`}>
+                                        <WizardJobSeeker saveProject={this.props.saveProject}></WizardJobSeeker>
                                     </Route>
                                     <Route path={`${path}`}>
                                         <div className="modal-body">

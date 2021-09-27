@@ -71,7 +71,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route path="/wordcounttoolbox/wizard">
-              <WizardModal showModal={this.state.showWizard}></WizardModal>
+              <WizardModal saveProject={this.saveProject}></WizardModal>
               <div className={`modal-backdrop fade show`}></div>
             </Route>
             <Route>
