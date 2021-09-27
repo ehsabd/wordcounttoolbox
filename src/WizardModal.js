@@ -2,10 +2,11 @@ import { Component } from 'react';
 import {Link, Route, Switch, BrowserRouter as Router} from 'react-router-dom';
 import {withRouter} from 'react-router';
 import WizardJobSeeker from './WizardJobSeeker';
+import WizardStudent from './WizardStudent';
 class WizardModal extends Component {
 
     state={whoOptions:[
-    {text:'Writer',},{text:'Student'},{text:'Job Seeker', slug:'jobseeker'},{text:'Teacher'}]}
+    {text:'Writer', slug:'writer'},{text:'Student', slug:'student'},{text:'Job Seeker', slug:'jobseeker'},{text:'Teacher', slug:'teacher'}]}
 
     constructor(props){
         super(props);
@@ -30,6 +31,9 @@ class WizardModal extends Component {
                                 <Switch>
                                     <Route path={`${path}/jobseeker`}>
                                         <WizardJobSeeker closeModal={this.closeModal} saveProject={this.props.saveProject}></WizardJobSeeker>
+                                    </Route>
+                                    <Route path={`${path}/student`}>
+                                        <WizardStudent closeModal={this.closeModal} saveProject={this.props.saveProject}></WizardStudent>
                                     </Route>
                                     <Route path={`${path}`}>
                                         <div className="modal-body">
