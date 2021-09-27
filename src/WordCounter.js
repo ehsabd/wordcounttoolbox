@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { WordCountResultTable } from './WordCountResultTable';
 import WordCountResultText from './WordCountResultText';
+import WordTool from './WordTool'
 class WordCounter extends Component {
 
     labels=[];
@@ -25,7 +26,7 @@ class WordCounter extends Component {
                 });
             }
         });
-        const textWords = [...this.props.text.matchAll(/\w+/g)].map(
+        const textWords = WordTool.getWords(this.props.text).map(
             m => {
                 const word = m[0].toLowerCase();
                 const index = m.index;
