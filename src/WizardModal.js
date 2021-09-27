@@ -7,6 +7,15 @@ class WizardModal extends Component {
     state={whoOptions:[
     {text:'Writer',},{text:'Student'},{text:'Job Seeker', slug:'jobseeker'},{text:'Teacher'}]}
 
+    constructor(props){
+        super(props);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    closeModal(){
+        this.props.history.push('/wordcounttoolbox');
+    }
+
     render() {
         console.log(this.props);
         const {match:{url, path}} = this.props;
@@ -14,13 +23,13 @@ class WizardModal extends Component {
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header border-0">
-                            <Link to="/wordcounttoolbox"className="close"><span aria-hidden="true">&times;</span></Link>
+                            <a className="btn close" onClick={this.closeModal}><span aria-hidden="true">&times;</span></a>
                             </div>
                             
                             <Router>
                                 <Switch>
                                     <Route path={`${path}/jobseeker`}>
-                                        <WizardJobSeeker saveProject={this.props.saveProject}></WizardJobSeeker>
+                                        <WizardJobSeeker closeModal={this.closeModal} saveProject={this.props.saveProject}></WizardJobSeeker>
                                     </Route>
                                     <Route path={`${path}`}>
                                         <div className="modal-body">
@@ -37,7 +46,7 @@ class WizardModal extends Component {
                                             </div>
                                         </div>
                                         <div className="modal-footer border-0">
-                                            <Link to="/wordcounttoolbox"className="btn btn-secondary">Close</Link>
+                                            <button onClick={this.closeModal} className="btn btn-secondary">Close</button>
                                             <button type="button" className="btn btn-primary">Next</button>
                                         </div>
                                     </Route>

@@ -27,6 +27,7 @@ class App extends Component {
     this.addWordList = this.addWordList.bind(this);
     this.loadWordFreqLists = this.loadWordFreqLists.bind(this);
     this.deleteWordList = this.deleteWordList.bind(this);
+    this.saveProject = this.saveProject.bind(this);
 
   }
 
