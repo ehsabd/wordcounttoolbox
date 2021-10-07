@@ -1,80 +1,103 @@
 import React, { Component } from 'react';
 import { WordCountResultTable } from './WordCountResultTable';
-import WordCountResultText from './WordCountResultText';
-import WordTool from './WordTool'
+import {Editor, EditorState, CompositeDecorator, ContentState, convertToRaw, convertFromRaw, convertFromHTML} from 'draft-js';
+import 'draft-js/dist/Draft.css';
+import {defaultText} from './DefaultText';
+
 class WordCounter extends Component {
 
     labels=[];
 
     constructor(props) {
         super(props);
-        this.processWords = this.processWords.bind(this);
-        this.state = {
-            editorHeight: '300px',
-            isEditor: true
-        };
-    }
-
-    processWords() {
-        let wordsIndex = {};
-        let wordListsCountData = { undefined: 0 };
-        this.props.wordLists.forEach(({ label, words, color }) => {
-            wordListsCountData[label] = 0;
-            if (words !== undefined){
-                words.split(',').forEach(word => {
-                    wordsIndex[word.trim()] = {label, color};
-                });
+        this.WordSpan = this.WordSpan.bind(this);
+        this.getWordsIndexRecord = this.getWordsIndexRecord.bind(this);
+        this.wordStrategy = this.wordStrategy.bind(this);
+        const compositeDecorator = new CompositeDecorator([
+            {
+              strategy: this.wordStrategy,
+              component: this.WordSpan,
             }
-        });
-        const textWords = WordTool.getWords(this.props.text).map(
-            m => {
-                const word = m[0].toLowerCase();
-                const index = m.index;
-                const length = m[0].length;
-                let label = undefined;
-                let color = undefined;
-                if (wordsIndex[word] !== undefined){
-                    label = wordsIndex[word].label;
-                    color = wordsIndex[word].color;
-                }
-                return {word, index, length, label, color}
-            });
-        console.log(JSON.stringify(wordsIndex));
-        
-        textWords.forEach(item => {
-            const key = wordsIndex[item.word]?.label;
-            wordListsCountData[key]++;
-            
-        })
+        ]);
+        this.state = {
+            editorHeight: '300px'
+        };
 
-        const countData =  Object.entries(wordListsCountData);
-        const isEditor = false;
-        this.setState({ countData, textWords, isEditor });
+        if (this.props.rawContent !== undefined){
+            this.state.editorState = EditorState.createWithContent(convertFromRaw(this.props.rawContent),compositeDecorator)
+        }else{
+            this.state.editorState = EditorState.createWithContent(
+                ContentState.createFromBlockArray(
+                convertFromHTML(defaultText()))
+              ,compositeDecorator);
+        }
 
+        this.onEditorChange = (editorState) => {
+            const raw = convertToRaw(editorState.getCurrentContent());
+            this.props.contentChanged(raw);
+            this.setState({editorState});
+        }
     }
+
+
+    wordStrategy(contentBlock, callback, contentState) {
+        let wordListsCountData = { undefined: 0 };
+        console.log('wordStrategy run')
+        var regex=/[\w]+/g;
+        const text = contentBlock.getText();
+        //console.log(text);
+        let matchArr;
+        while ((matchArr = regex.exec(text)) !== null) {
+          const word = matchArr[0];
+          const wordsIndexRecrod = this.getWordsIndexRecord(word); 
+          if ( wordsIndexRecrod !== undefined){
+            const label = wordsIndexRecrod.label;
+            if (!(label in wordListsCountData)){
+                wordListsCountData[label]=0;
+            }
+            wordListsCountData[label]++;
+            const start = matchArr.index;
+            callback(start, start + matchArr[0].length);
+          }
+        }
+        const countData =  Object.entries(wordListsCountData);
+        this.setState({countData}); 
+    }
+    
+    getWordsIndexRecord(word){
+        const {wordsIndex} = this.props;
+        if (wordsIndex!==undefined){
+           return wordsIndex[word.toLowerCase()];
+        }else{
+           return undefined;
+        }
+    }
+      
+    WordSpan(props) {
+        
+        const color = this.getWordsIndexRecord(props.decoratedText)?.color;
+        //console.log(color);
+        return (
+          <span
+            style={{background:color}}
+            data-offset-key={props.offsetKey}
+            >
+            {props.children}{props.hi}
+          </span>
+        );
+    };
 
     render() {
         return (
             <div>
-                <div className="text-left pb-2">
-                    <button onClick={this.processWords} className="btn btn-primary">Count</button>
-                </div>
                 {
-                    this.state.isEditor ? (
-                        <textarea style={{ height: this.state.editorHeight }} className="w-100" rows="10" onChange={this.props.textChanged} value={this.props.text}></textarea>
-                    )
-                        :
-                        (
-                            <WordCountResultText switchedToEditor={()=>{this.setState({isEditor:true});}} textWords={this.state.textWords} labels={this.props.wordLists.map(({label, words})=>label)} text={this.props.text} height={this.state.editorHeight}></WordCountResultText>
-                        )
+                    <Editor editorState={this.state.editorState} onChange={this.onEditorChange} />    
                 }
 
                 {
                     this.state.countData &&
                     <WordCountResultTable countData={this.state.countData}></WordCountResultTable>
                 }
-
-
             </div>
 
         )
