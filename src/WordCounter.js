@@ -9,7 +9,9 @@ class WordCounter extends Component {
     labels=[];
 
     constructor(props) {
+        console.log('WordCounter constructor')
         super(props);
+        console.log(this.props.wordsIndex);
         this.WordSpan = this.WordSpan.bind(this);
         this.getWordsIndexRecord = this.getWordsIndexRecord.bind(this);
         this.wordStrategy = this.wordStrategy.bind(this);
@@ -90,10 +92,11 @@ class WordCounter extends Component {
     render() {
         return (
             <div>
-                {
-                    <Editor editorState={this.state.editorState} onChange={this.onEditorChange} />    
-                }
-
+                
+                    <div style={{overflowY:'scroll', height:this.state.editorHeight}}>
+                        <Editor editorState={this.state.editorState} onChange={this.onEditorChange} />    
+                    </div>
+                
                 {
                     this.state.countData &&
                     <WordCountResultTable countData={this.state.countData}></WordCountResultTable>
