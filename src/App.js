@@ -23,16 +23,30 @@ class App extends Component {
     super(props);
     console.log(this.state);
     this.wordListItemChanged = this.wordListItemChanged.bind(this);
-    this.textChanged = this.textChanged.bind(this);
+    this.contentChanged = this.contentChanged.bind(this);
     this.addWordList = this.addWordList.bind(this);
     this.loadWordFreqLists = this.loadWordFreqLists.bind(this);
     this.deleteWordList = this.deleteWordList.bind(this);
     this.saveProject = this.saveProject.bind(this);
+    this.createOrUpdateWordIndex = this.createOrUpdateWordIndex.bind(this);
+        
 
   }
 
   componentDidMount(){
     this.loadProject();
+  }
+
+  createOrUpdateWordIndex(wordLists) {
+    let wordsIndex = {};
+    wordLists.forEach(({ label, words, color }) => {
+        if (words !== undefined){
+            words.split(',').forEach(word => {
+                wordsIndex[word.trim().toLowerCase()] = {label, color};
+            });
+        }
+    });
+    this.setState({ wordsIndex });
   }
 
   deleteWordList(e, index){
@@ -59,10 +73,9 @@ class App extends Component {
     })
   }
 
-  textChanged(e) {
-    const text = e.target.value;
-    console.log(text);
-    this.saveProject({text})
+  contentChanged(rawContent) {
+    console.log(rawContent);
+    this.saveProject({rawContent})
   }
 
   render() {
@@ -90,7 +103,7 @@ class App extends Component {
         <div className="container-fluid pt-3">
           <div className="row">
             <div className="col-sm-8">
-             <WordCounter textChanged={this.textChanged} text={this.state.project.text} wordLists={this.state.project.wordLists}></WordCounter>
+             <WordCounter contentChanged={this.contentChanged} text={this.state.project.text} wordLists={this.state.project.wordLists} wordsIndex={this.state.wordsIndex}></WordCounter>
             </div>
             <div className="col-sm-4">
               <WordListsContainer addWordList={this.addWordList} deleteWordList={this.deleteWordList} loadWordFreqLists={this.loadWordFreqLists} itemChanged={this.wordListItemChanged} wordLists={this.state.project.wordLists}></WordListsContainer>
@@ -137,7 +150,9 @@ class App extends Component {
     loader().then((project)=>{
       console.log(project);
       if (project != null) {
-        this.setState({project});
+        this.createOrUpdateWordIndex(project.wordLists);
+        this.setState({project});  
+        
       }
     })
   }
@@ -145,6 +160,7 @@ class App extends Component {
   saveProject(projectMoified, saver = this.localStorageSaver ){
     let project = {...this.state.project};
     Object.assign(project, projectMoified);
+    this.createOrUpdateWordIndex(project.wordLists);
     this.setState({project});
     saver(project);
   }
