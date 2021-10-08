@@ -8,6 +8,9 @@ import WordCounter from './WordCounter';
 import {WordFrequencyLoader} from './ExternalWordLists';
 import WizardModal from './WizardModal';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {Editor, EditorState, CompositeDecorator, ContentState, convertToRaw, convertFromRaw, convertFromHTML} from 'draft-js';
+import 'draft-js/dist/Draft.css';
+import EditorDecoratorHelper from './EditorDecoratorHelper';
 
 class App extends Component {
   
@@ -23,15 +26,39 @@ class App extends Component {
     super(props);
     console.log(this.state);
     this.wordListItemChanged = this.wordListItemChanged.bind(this);
-    this.contentChanged = this.contentChanged.bind(this);
     this.addWordList = this.addWordList.bind(this);
     this.loadWordFreqLists = this.loadWordFreqLists.bind(this);
     this.deleteWordList = this.deleteWordList.bind(this);
     this.saveProject = this.saveProject.bind(this);
     this.createOrUpdateWordIndex = this.createOrUpdateWordIndex.bind(this);
-        
-
+    this.WordSpan = this.WordSpan.bind(this);
+    this.wordStrategy = this.wordStrategy.bind(this);
+    this.onEditorChange = this.onEditorChange.bind(this)    
   }
+
+  wordStrategy(contentBlock, callback, contentState) {
+      console.log('wordStrategy run')
+      const text = contentBlock.getText();
+      const {wordsIndex} = this.state;
+      const countData = EditorDecoratorHelper.processWords(text, wordsIndex, callback)
+      this.setState({countData}); 
+  }
+
+    
+  WordSpan(props) {
+      
+      const color = EditorDecoratorHelper.getWordsIndexRecord(props.decoratedText, this.state.wordsIndex)?.color;
+      //console.log(color);
+      return (
+        <span
+          style={{background:color}}
+          data-offset-key={props.offsetKey}
+          >
+          {props.children}{props.hi}
+        </span>
+      );
+  };
+
 
   componentDidMount(){
     this.loadProject();
@@ -73,11 +100,6 @@ class App extends Component {
     })
   }
 
-  contentChanged(rawContent) {
-    console.log(rawContent);
-    this.saveProject({rawContent})
-  }
-
   render() {
 
     return (
@@ -103,7 +125,9 @@ class App extends Component {
         <div className="container-fluid pt-3">
           <div className="row">
             <div className="col-sm-8">
-             <WordCounter contentChanged={this.contentChanged} text={this.state.project.text} wordLists={this.state.project.wordLists} wordsIndex={this.state.wordsIndex}></WordCounter>
+              {this.state.editorState &&
+                 <WordCounter editorChanged={this.onEditorChange} editorState={this.state.editorState}></WordCounter>
+              }
             </div>
             <div className="col-sm-4">
               <WordListsContainer addWordList={this.addWordList} deleteWordList={this.deleteWordList} loadWordFreqLists={this.loadWordFreqLists} itemChanged={this.wordListItemChanged} wordLists={this.state.project.wordLists}></WordListsContainer>
@@ -151,10 +175,32 @@ class App extends Component {
       console.log(project);
       if (project != null) {
         this.createOrUpdateWordIndex(project.wordLists);
-        this.setState({project});  
-        
+        const {rawContent} = project;
+        let editorState;
+        const compositeDecorator = new CompositeDecorator([
+          {
+            strategy: this.wordStrategy,
+            component: this.WordSpan,
+          }
+        ]);
+        if (rawContent !== undefined){
+          editorState = EditorState.createWithContent(convertFromRaw(rawContent),compositeDecorator)
+        }else{
+          editorState = EditorState.createWithContent(
+              ContentState.createFromBlockArray(
+              convertFromHTML(defaultText()))
+            ,compositeDecorator);
+        }
+        this.setState({project, editorState});      
       }
     })
+  }
+
+
+  onEditorChange (editorState) {
+    const rawContent = convertToRaw(editorState.getCurrentContent());
+    this.saveProject({rawContent});
+    this.setState({editorState});
   }
 
   saveProject(projectMoified, saver = this.localStorageSaver ){
