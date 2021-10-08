@@ -126,7 +126,7 @@ class App extends Component {
           <div className="row">
             <div className="col-sm-8">
               {this.state.editorState &&
-                 <WordCounter editorChanged={this.onEditorChange} editorState={this.state.editorState}></WordCounter>
+                 <WordCounter editorChanged={this.onEditorChange} editorState={this.state.editorState} countData={this.state.countData}></WordCounter>
               }
             </div>
             <div className="col-sm-4">
