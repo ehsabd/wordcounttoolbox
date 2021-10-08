@@ -3,6 +3,7 @@ import { WordCountResultTable } from './WordCountResultTable';
 import {Editor, EditorState, CompositeDecorator, ContentState, convertToRaw, convertFromRaw, convertFromHTML} from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import {defaultText} from './DefaultText';
+import EditorDecoratorHelper from './EditorDecoratorHelper';
 
 class WordCounter extends Component {
 
@@ -13,7 +14,6 @@ class WordCounter extends Component {
         super(props);
         console.log(this.props.wordsIndex);
         this.WordSpan = this.WordSpan.bind(this);
-        this.getWordsIndexRecord = this.getWordsIndexRecord.bind(this);
         this.wordStrategy = this.wordStrategy.bind(this);
         const compositeDecorator = new CompositeDecorator([
             {
@@ -43,41 +43,16 @@ class WordCounter extends Component {
 
 
     wordStrategy(contentBlock, callback, contentState) {
-        let wordListsCountData = { undefined: 0 };
         console.log('wordStrategy run')
-        var regex=/[\w]+/g;
         const text = contentBlock.getText();
-        //console.log(text);
-        let matchArr;
-        while ((matchArr = regex.exec(text)) !== null) {
-          const word = matchArr[0];
-          const wordsIndexRecrod = this.getWordsIndexRecord(word); 
-          if ( wordsIndexRecrod !== undefined){
-            const label = wordsIndexRecrod.label;
-            if (!(label in wordListsCountData)){
-                wordListsCountData[label]=0;
-            }
-            wordListsCountData[label]++;
-            const start = matchArr.index;
-            callback(start, start + matchArr[0].length);
-          }
-        }
-        const countData =  Object.entries(wordListsCountData);
+        const countData = EditorDecoratorHelper.processWords(text, this.props.wordsIndex, callback)
         this.setState({countData}); 
     }
     
-    getWordsIndexRecord(word){
-        const {wordsIndex} = this.props;
-        if (wordsIndex!==undefined){
-           return wordsIndex[word.toLowerCase()];
-        }else{
-           return undefined;
-        }
-    }
       
     WordSpan(props) {
         
-        const color = this.getWordsIndexRecord(props.decoratedText)?.color;
+        const color = EditorDecoratorHelper.getWordsIndexRecord(props.decoratedText, this.props.wordsIndex)?.color;
         //console.log(color);
         return (
           <span

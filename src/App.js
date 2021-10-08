@@ -103,7 +103,7 @@ class App extends Component {
         <div className="container-fluid pt-3">
           <div className="row">
             <div className="col-sm-8">
-             <WordCounter contentChanged={this.contentChanged} text={this.state.project.text} wordLists={this.state.project.wordLists} wordsIndex={this.state.wordsIndex}></WordCounter>
+             <WordCounter contentChanged={this.contentChanged} rawContent={this.state.project.rawContent} wordLists={this.state.project.wordLists} wordsIndex={this.state.wordsIndex}></WordCounter>
             </div>
             <div className="col-sm-4">
               <WordListsContainer addWordList={this.addWordList} deleteWordList={this.deleteWordList} loadWordFreqLists={this.loadWordFreqLists} itemChanged={this.wordListItemChanged} wordLists={this.state.project.wordLists}></WordListsContainer>
