@@ -200,6 +200,7 @@ class App extends Component {
   onEditorChange (editorState) {
     const rawContent = convertToRaw(editorState.getCurrentContent());
     this.saveProject({rawContent});
+    this.setState({editorState});
   }
 
   saveProject(projectMoified, saver = this.localStorageSaver ){
