@@ -8,7 +8,7 @@ import WordCounter from './WordCounter';
 import {WordFrequencyLoader} from './ExternalWordLists';
 import WizardModal from './WizardModal';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import {Editor, EditorState, CompositeDecorator, ContentState, convertToRaw, convertFromRaw, convertFromHTML} from 'draft-js';
+import {EditorState, CompositeDecorator, ContentState, convertToRaw, convertFromRaw, convertFromHTML} from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import EditorDecoratorHelper from './EditorDecoratorHelper';
 
