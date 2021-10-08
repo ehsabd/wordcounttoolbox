@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/wordcounttoolbox/static/css/main.ce441437.chunk.css",
-    "main.js": "/wordcounttoolbox/static/js/main.99da8a09.chunk.js",
-    "main.js.map": "/wordcounttoolbox/static/js/main.99da8a09.chunk.js.map",
+    "main.js": "/wordcounttoolbox/static/js/main.4e1b7809.chunk.js",
+    "main.js.map": "/wordcounttoolbox/static/js/main.4e1b7809.chunk.js.map",
     "runtime-main.js": "/wordcounttoolbox/static/js/runtime-main.1bb50fb3.js",
     "runtime-main.js.map": "/wordcounttoolbox/static/js/runtime-main.1bb50fb3.js.map",
     "static/css/2.dc66ec54.chunk.css": "/wordcounttoolbox/static/css/2.dc66ec54.chunk.css",
-    "static/js/2.5f967e8c.chunk.js": "/wordcounttoolbox/static/js/2.5f967e8c.chunk.js",
-    "static/js/2.5f967e8c.chunk.js.map": "/wordcounttoolbox/static/js/2.5f967e8c.chunk.js.map",
+    "static/js/2.0fb12bb0.chunk.js": "/wordcounttoolbox/static/js/2.0fb12bb0.chunk.js",
+    "static/js/2.0fb12bb0.chunk.js.map": "/wordcounttoolbox/static/js/2.0fb12bb0.chunk.js.map",
     "static/js/3.2cd9ae69.chunk.js": "/wordcounttoolbox/static/js/3.2cd9ae69.chunk.js",
     "static/js/3.2cd9ae69.chunk.js.map": "/wordcounttoolbox/static/js/3.2cd9ae69.chunk.js.map",
     "index.html": "/wordcounttoolbox/index.html",
     "static/css/2.dc66ec54.chunk.css.map": "/wordcounttoolbox/static/css/2.dc66ec54.chunk.css.map",
     "static/css/main.ce441437.chunk.css.map": "/wordcounttoolbox/static/css/main.ce441437.chunk.css.map",
-    "static/js/2.5f967e8c.chunk.js.LICENSE.txt": "/wordcounttoolbox/static/js/2.5f967e8c.chunk.js.LICENSE.txt",
+    "static/js/2.0fb12bb0.chunk.js.LICENSE.txt": "/wordcounttoolbox/static/js/2.0fb12bb0.chunk.js.LICENSE.txt",
     "static/media/logo.6ce24c58.svg": "/wordcounttoolbox/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.1bb50fb3.js",
     "static/css/2.dc66ec54.chunk.css",
-    "static/js/2.5f967e8c.chunk.js",
+    "static/js/2.0fb12bb0.chunk.js",
     "static/css/main.ce441437.chunk.css",
-    "static/js/main.99da8a09.chunk.js"
+    "static/js/main.4e1b7809.chunk.js"
   ]
 }
