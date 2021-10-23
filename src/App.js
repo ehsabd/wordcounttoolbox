@@ -15,10 +15,6 @@ import EditorDecoratorHelper from './EditorDecoratorHelper';
 class App extends Component {
   
   state = {
-    project:{
-      wordLists: [],
-      text: defaultText(),
-    },
     showWizard:true
   };
 
@@ -122,6 +118,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" /> WordCountToolbox
       </header>
+      {this.state.project &&
         <div className="container-fluid pt-3">
           <div className="row">
             <div className="col-sm-8">
@@ -135,7 +132,7 @@ class App extends Component {
           </div>
 
         </div>
-
+      }
       </div>
 
     );
@@ -173,7 +170,14 @@ class App extends Component {
   loadProject(loader = this.localStorageLoader) {
     loader().then((project)=>{
       console.log(project);
-      if (project != null) {
+      
+      
+      if (project === null){
+        project={
+          wordLists: []
+        }
+      }
+
         this.createOrUpdateWordIndex(project.wordLists);
         const {rawContent} = project;
         let editorState;
@@ -192,7 +196,6 @@ class App extends Component {
             ,compositeDecorator);
         }
         this.setState({project, editorState});      
-      }
     })
   }
 
