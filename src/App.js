@@ -15,7 +15,6 @@ import EditorDecoratorHelper from './EditorDecoratorHelper';
 class App extends Component {
   
   state = {
-    showWizard:true
   };
 
   constructor(props) {
@@ -29,7 +28,8 @@ class App extends Component {
     this.createOrUpdateWordIndex = this.createOrUpdateWordIndex.bind(this);
     this.WordSpan = this.WordSpan.bind(this);
     this.wordStrategy = this.wordStrategy.bind(this);
-    this.onEditorChange = this.onEditorChange.bind(this)    
+    this.onEditorChange = this.onEditorChange.bind(this);
+    this.saveWorkspace = this.saveWorkspace.bind(this);    
   }
 
   wordStrategy(contentBlock, callback, contentState) {
@@ -57,7 +57,7 @@ class App extends Component {
 
 
   componentDidMount(){
-    this.loadProject();
+    this.loadWorkspace();
   }
 
   createOrUpdateWordIndex(wordLists) {
@@ -73,18 +73,18 @@ class App extends Component {
   }
 
   deleteWordList(e, index){
-    this.saveWordLists(this.state.project.wordLists.filter((item, i)=>i !== index));
+    this.saveWordLists(this.state.workspace.project.wordLists.filter((item, i)=>i !== index));
   }
 
   wordListItemChanged(index, obj) {
     console.log('wordListItemChanged');
-    let wordLists = [...this.state.project.wordLists];
+    let wordLists = [...this.state.workspace.project.wordLists];
     Object.assign(wordLists[index], obj);
     this.saveWordLists(wordLists);
   }
 
   addWordList(){
-    this.saveWordLists(this.state.project.wordLists.concat({}));
+    this.saveWordLists(this.state.workspace.project.wordLists.concat({}));
   }
 
   loadWordFreqLists(){
@@ -107,18 +107,28 @@ class App extends Component {
               <div className={`modal-backdrop fade show`}></div>
             </Route>
             <Route>
-              <p>
-              Do you want to use the wizard to get started with wordcounttoolbox?
+              <div className="container-fluid pt-3">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="alert text-white bg-warning">
+                      <p>
+                      Do you want to use the wizard to get started with wordcounttoolbox?
 
-              </p>
-              <Link to="/wordcounttoolbox/wizard">Click Here!</Link>
+                      </p>
+                      <Link to="/wordcounttoolbox/wizard">Click Here!</Link>
+                  </div>
+                  </div>
+
+                </div>
+              </div>
+             
             </Route>
           </Switch>
         </Router>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" /> WordCountToolbox
       </header>
-      {this.state.project &&
+      {this.state.workspace &&
         <div className="container-fluid pt-3">
           <div className="row">
             <div className="col-sm-8">
@@ -127,7 +137,7 @@ class App extends Component {
               }
             </div>
             <div className="col-sm-4">
-              <WordListsContainer addWordList={this.addWordList} deleteWordList={this.deleteWordList} loadWordFreqLists={this.loadWordFreqLists} itemChanged={this.wordListItemChanged} wordLists={this.state.project.wordLists}></WordListsContainer>
+              <WordListsContainer addWordList={this.addWordList} deleteWordList={this.deleteWordList} loadWordFreqLists={this.loadWordFreqLists} itemChanged={this.wordListItemChanged} wordLists={this.state.workspace.project.wordLists}></WordListsContainer>
             </div>
           </div>
 
@@ -138,7 +148,7 @@ class App extends Component {
     );
   }
 
-  localStorageLoader(key='wct_project') {
+  localStorageLoader(key='wct_workspace') {
     const promise = new Promise((resolve, reject) => {
       setTimeout(()=>{
       const objJson = localStorage.getItem(key);
@@ -152,7 +162,7 @@ class App extends Component {
     return promise;
   }
 
-  localStorageSaver(obj, key='wct_project'){
+  localStorageSaver(obj, key='wct_workspace'){
     const promise = new Promise((resolve, reject) => {
       setTimeout(()=>{
       try {
@@ -167,16 +177,24 @@ class App extends Component {
     return promise;
   }
 
-  loadProject(loader = this.localStorageLoader) {
-    loader().then((project)=>{
-      console.log(project);
+  loadWorkspace(loader = this.localStorageLoader) {
+    loader().then((workspace)=>{
+      console.log(workspace);
       
       
-      if (project === null){
-        project={
-          wordLists: []
+      if (workspace === null){
+        workspace = {
+          showWizard:true,
+          project:{
+            wordLists: []
+          }
         }
       }
+
+      if (workspace.showWizard && window.location.pathname !== '/wordcounttoolbox/wizard' ){
+          window.location.href = '/wordcounttoolbox/wizard'; 
+      }
+      const {project} = workspace;
 
         this.createOrUpdateWordIndex(project.wordLists);
         const {rawContent} = project;
@@ -195,7 +213,7 @@ class App extends Component {
               convertFromHTML(defaultText()))
             ,compositeDecorator);
         }
-        this.setState({project, editorState});      
+        this.setState({workspace, editorState});      
     })
   }
 
@@ -206,12 +224,16 @@ class App extends Component {
     this.setState({editorState});
   }
 
-  saveProject(projectMoified, saver = this.localStorageSaver ){
-    let project = {...this.state.project};
-    Object.assign(project, projectMoified);
-    this.createOrUpdateWordIndex(project.wordLists);
-    this.setState({project});
-    saver(project);
+  saveProject(projectMoified ){
+    let workspace = {...this.state.workspace};
+    Object.assign(workspace.project, projectMoified);
+    this.createOrUpdateWordIndex(workspace.project.wordLists);
+    this.setState({workspace});
+    this.saveWorkspace();
+  }
+
+  saveWorkspace(saver = this.localStorageSaver){
+    saver(this.state.workspace);
   }
 
   saveWordLists(wordLists)  {

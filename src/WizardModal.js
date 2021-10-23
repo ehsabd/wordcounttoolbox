@@ -20,7 +20,7 @@ class WizardModal extends Component {
     render() {
         console.log(this.props);
         const {match:{url, path}} = this.props;
-        return  <div className="modal fade show d-block" tabindex="-1" role="dialog" aria-hidden="true">
+        return  <div className="modal fade show d-block" tabIndex="-1" role="dialog" aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header border-0">
@@ -41,8 +41,8 @@ class WizardModal extends Component {
                                             <h2 className="text-center">Who are you?</h2>
                                             <div className="row mt-4">
                                                 {
-                                                    this.state.whoOptions.map((o) => {
-                                                        return <div className="col-sm-3 col-xs-6"><Link to={`${url}/${o.slug}`} className="btn shadow w-100 h-100" style={{ backgroundColor: o.isSelected ? 'gold' : 'white' }} for="option2">{o.text}
+                                                    this.state.whoOptions.map((o,i) => {
+                                                        return <div key={`k${i}`} className="col-sm-3 col-xs-6"><Link to={`${url}/${o.slug}`} className="btn shadow w-100 h-100" style={{ backgroundColor: o.isSelected ? 'gold' : 'white' }}>{o.text}
                                                         </Link></div>;
                                                     })
                                                 }
